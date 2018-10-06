@@ -27,19 +27,19 @@ if __name__ == "__main__":
                                            batchSize=batchSize,
                                            flip=True, keepEmpty=False, shuffle=True)
 
-        trainFeeder.set_paths(idList=read_ids(''),
-                         imageDir="",
-                         gtDir="",
-                         ssDir="")
+        trainFeeder.set_paths(idList=read_ids('../dataset/train.txt'),
+                         imageDir="../dataset/leftImg8bit/train",
+                         gtDir="../dataset/gtFine/train",
+                         ssDir="../dataset/gtFine/train")
 
         valFeeder = Batch_Feeder(dataset="cityscapes",
                                          train=train,
                                          batchSize=batchSize, shuffle=False)
 
-        valFeeder.set_paths(idList=read_ids(''),
-                         imageDir="",
-                         gtDir="",
-                         ssDir="")
+        valFeeder.set_paths(idList=read_ids('../dataset/val.txt'),
+                         imageDir="../dataset/leftImg8bit/val",
+                         gtDir="../dataset/gtFine/val",
+                         ssDir="../dataset/gtFine/val")
 
         model = get_model(wd=wd, modelWeightPaths=modelWeightPaths)
 
