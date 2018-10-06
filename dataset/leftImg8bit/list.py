@@ -1,6 +1,8 @@
 import os.path
 
-dir = './val'
+dirVal = './val'
+
+dirTrain = './train'
 
 fileList = []
 def getAllFiles(dir):
@@ -12,12 +14,13 @@ def getAllFiles(dir):
 		
 		
 
-getAllFiles(dir)
-#print(fileList)
-
-with open('val.txt', 'w+') as fp:
-	for img in fileList:
-		fp.write(img+'\n')
+		
+if __name__ == '__main__':
+	getAllFiles(dirVal)
+	ValTxt = '../val.txt'
+	with open(ValTxt, 'w+') as fp:
+		for img in fileList:
+			fp.write(img+'\n')
 
 
 
