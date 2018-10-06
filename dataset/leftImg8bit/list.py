@@ -7,7 +7,7 @@ dirTrain = './train'
 fileList = []
 def getAllFiles(dir):
 	if(os.path.isfile(dir)):
-		fileList.append(dir[5:-16])
+		fileList.append(dir[7:-16])
 	else :
 		for path in os.listdir(dir):
 			getAllFiles(os.path.join(dir,path))
@@ -16,9 +16,10 @@ def getAllFiles(dir):
 
 		
 if __name__ == '__main__':
-	getAllFiles(dirVal)
+	getAllFiles(dirTrain)
 	ValTxt = '../val.txt'
-	with open(ValTxt, 'w+') as fp:
+	TrainTxt = '../train.txt'
+	with open(TrainTxt, 'w+') as fp:
 		for img in fileList:
 			fp.write(img+'\n')
 
