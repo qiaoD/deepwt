@@ -2,6 +2,7 @@ import numpy as np
 import skimage
 import skimage.io
 import scipy.io as sio
+import scipy.misc
 import skimage.transform
 import sys
 
@@ -83,7 +84,8 @@ class Batch_Feeder:
                     idBatch.append(self._paths[self._index_in_epoch][0])
 
                     image = (self.image_scaling(skimage.io.imread(self._paths[self._index_in_epoch][1]))).astype(float)
-                    gt = (sio.loadmat(self._paths[self._index_in_epoch][2])['dir_map']).astype(float)
+                image = scipy.misc.imresize(image, 50)    
+					gt = (sio.loadmat(self._paths[self._index_in_epoch][2])['dir_map']).astype(float)
                     weight = (sio.loadmat(self._paths[self._index_in_epoch][2])['weight_map']).astype(float)
 
                     imageBatch.append(self.pad(image))

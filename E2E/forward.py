@@ -28,7 +28,7 @@ def forward_model(model, feeder, outputSavePath, batchSize=1):
 
         for i in range(int(math.floor(feeder.total_samples() / batchSize))):
             imageBatch, ssBatch, ssMaskBatch, idBatch = feeder.next_batch()
-
+			print(imageBatch.shape)
             outputBatch = sess.run(model.outputDataArgMax, feed_dict={tfBatchImages: imageBatch,
                                                                       tfBatchSS: ssBatch,
                                                                       tfBatchSSMask: ssMaskBatch,

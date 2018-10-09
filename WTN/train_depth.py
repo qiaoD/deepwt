@@ -206,20 +206,20 @@ if __name__ == "__main__":
                                            batchSize=batchSize,
                                            padWidth=None,
                                            padHeight=None, flip=True, keepEmpty=False)
-        trainFeeder.set_paths(idList=read_ids('./cityscapes/splits/trainlist.txt'),
-                         gtDir="./cityscapes/unified/iGTFine/train",
-                         ssDir="./cityscapes/unified/ssMaskFineGT/train")
+        trainFeeder.set_paths(idList=read_ids('../cityscapes/splits/train/list.txt'),
+                         gtDir="../cityscapes/unified/iGTFull/train",
+                         ssDir="../cityscapes/unified/ssMaskFinePSP/train")
 
         valFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize, padWidth=None, padHeight=None)
-        valFeeder.set_paths(idList=read_ids('./cityscapes/splits/vallist.txt'),
-                         gtDir="./cityscapes/unified/iGTFine/val",
-                         ssDir="./cityscapes/unified/ssMaskFineGT/val")
+        valFeeder.set_paths(idList=read_ids('../cityscapes/splits/val/list.txt'),
+                         gtDir="../cityscapes/unified/iGTFull/val",
+                         ssDir="../cityscapes/unified/ssMaskFinePSP/val")
 
         train_model(model=model, outputChannels=outputChannels,
                     learningRate=learningRate,
                     trainFeeder=trainFeeder,
                     valFeeder=valFeeder,
-                    modelSavePath="./cityscapes/models/depth",
+                    modelSavePath="../cityscapes/models/depth",
                     savePrefix=savePrefix,
                     initialIteration=initialIteration)
 

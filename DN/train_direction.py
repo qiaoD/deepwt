@@ -84,7 +84,7 @@ def train_model(model, outputChannels, learningRate, trainFeeder, valFeeder, mod
         tfBatchGT = tf.placeholder("float", shape=[None, 512, 1024, 2])
         tfBatchWeight = tf.placeholder("float", shape=[None, 512, 1024])
         tfBatchSS = tf.placeholder("float", shape=[None, 512, 1024])
-        tfBatchSSMask = tf.placeholder(tf.float32, shape=[None, 512, 1024])
+        tfBatchSSMask = tf.placeholder("float", shape=[None, 512, 1024])
 
         with tf.name_scope("model_builder"):
             print "attempting to build model"

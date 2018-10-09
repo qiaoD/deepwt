@@ -59,7 +59,7 @@ def countCorrect(pred, gt, ss, k, outputChannels):
 
         ss = tf.to_float(tf.reshape(ss, (-1, 1)))
 
-        correct = tf.reduce_sum(tf.mul(tf.reshape(tf.to_float(tf.nn.in_top_k(gt, pred, k)), (-1, 1)), ss), reduction_indices=[0])
+        correct = tf.reduce_sum(tf.multiply(tf.reshape(tf.to_float(tf.nn.in_top_k(gt, pred, k)), (-1, 1)), ss), reduction_indices=[0])
         return correct
 
 def countTotalWeighted(ss, weight):

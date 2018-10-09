@@ -114,7 +114,7 @@ class Network:
             print "generated " + params["name"] + "/weights"
 
         if not tf.get_variable_scope().reuse:
-            weightDecay = tf.mul(tf.nn.l2_loss(var), self._wd,
+            weightDecay = tf.multiply(tf.nn.l2_loss(var), self._wd,
                                   name='weight_loss')
             tf.add_to_collection('losses', weightDecay)
 
@@ -126,7 +126,7 @@ class Network:
             in_features = bottom.get_shape()[3].value
 
             new_shape = [shape[0], shape[1], shape[2], params["outputChannels"]]
-            output_shape = tf.pack(new_shape)
+            output_shape = tf.stack(new_shape)
 
             f_shape = [params["ksize"], params["ksize"], params["outputChannels"], in_features]
 
