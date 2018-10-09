@@ -23,8 +23,8 @@ class Network:
         # ss_3 = tf.tile(tf.expand_dims(ss, -1), [1, 1, 1, 3])
         inputData = inputData * tf.expand_dims(ss, -1)
 
-        inputData = tf.concat(3, [inputData, tf.expand_dims(ssMask,-1)])
-
+        #inputData = tf.concat(3, [inputData, tf.expand_dims(ssMask,-1)])
+	inputData = tf.concat([inputData, tf.expand_dims(ssMask,-1)], 3)
         self.conv1_1 = self._conv_layer(inputData, params=self._params["direction/conv1_1"])
         self.conv1_2 = self._conv_layer(self.conv1_1, params=self._params["direction/conv1_2"])
         self.pool1 = self._max_pool(self.conv1_2, 'direction/pool1')
@@ -68,7 +68,7 @@ class Network:
         self.upscore4_3 = self._upscore_layer(self.fcn4_3, params=self._params["direction/upscore4_3"],
                                            shape=tf.shape(self.fcn3_3))
 
-        self.fuse3 = tf.concat(3, [self.fcn3_3, self.upscore5_3, self.upscore4_3], name="direction/fuse3")
+        self.fuse3 = tf.concat([self.fcn3_3, self.upscore5_3, self.upscore4_3], 3, name="direction/fuse3")
         self.fuse3_1 = self._conv_layer(self.fuse3, params=self._params["direction/fuse3_1"])
         self.fuse3_2 = self._conv_layer(self.fuse3_1, params=self._params["direction/fuse3_2"])
         self.fuse3_3 = self._conv_layer(self.fuse3_2, params=self._params["direction/fuse3_3"])
@@ -148,7 +148,7 @@ class Network:
             print "generated " + params["name"] + "/weights"
 
         if not tf.get_variable_scope().reuse:
-            weightDecay = tf.mul(tf.nn.l2_loss(var), self._wd,
+            weightDecay = tf.multiply(tf.nn.l2_loss(var), self._wd,
                                   name='weight_loss')
             tf.add_to_collection('losses', weightDecay)
 
@@ -160,7 +160,7 @@ class Network:
             in_features = bottom.get_shape()[3].value
 
             new_shape = [shape[0], shape[1], shape[2], params["outputChannels"]]
-            output_shape = tf.pack(new_shape)
+            output_shape = tf.stack(new_shape)
 
             f_shape = [params["ksize"], params["ksize"], params["outputChannels"], in_features]
 

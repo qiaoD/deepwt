@@ -69,6 +69,7 @@ class Batch_Feeder:
             while(len(idBatch) < self._batchSize):
                 ss = (sio.loadmat(self._paths[self._index_in_epoch][3])['mask']).astype(float)
                 ssMask = ss
+		#print(ssMask.shape)
                 ss = np.sum(ss[:,:,self._indices], 2)
 
                 background = np.zeros(ssMask.shape[0:2] + (1,))
@@ -76,6 +77,7 @@ class Batch_Feeder:
                 ssMask = np.argmax(ssMask, axis=-1)
                 ssMask = ssMask.astype(float)
                 ssMask = (ssMask - 4) * 32 # centered at 0, with 0 being background, spaced 32 apart for classes
+		#print(ssMask.shape)
 
                 if ss.sum() > 0 or self._keepEmpty:
                     idBatch.append(self._paths[self._index_in_epoch][0])
@@ -101,6 +103,8 @@ class Batch_Feeder:
             gtBatch = np.array(gtBatch)
             ssBatch = np.array(ssBatch)
             ssMaskBatch = np.array(ssMaskBatch)
+	    # print(ssMaskBatch.shape) [4,512,1024]
+	    # print(ssMaskBatch.shape())
             weightBatch = np.array(weightBatch)
 
             if self._flip and np.random.uniform() > 0.5:
@@ -116,6 +120,7 @@ class Batch_Feeder:
                         gtBatch[i,:,:,j] = np.fliplr(gtBatch[i,:,:,j])
 
                     gtBatch[i,:,:,0] = -1 * gtBatch[i,:,:,0]
+	    print(imageBatch.shape)
             return imageBatch, gtBatch, weightBatch, ssBatch, ssMaskBatch, idBatch
         else:
             for example in self._paths[self._index_in_epoch:min(self._index_in_epoch+self._batchSize, self._numData)]:
@@ -136,6 +141,7 @@ class Batch_Feeder:
             ssMaskBatch = np.array(ssMaskBatch)
 
             self._index_in_epoch += self._batchSize
+	    print(ssMaskBatch.shape)
             return imageBatch, ssBatch, ssMaskBatch, idBatch
 
     def total_samples(self):

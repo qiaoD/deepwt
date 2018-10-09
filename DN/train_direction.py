@@ -84,7 +84,7 @@ def train_model(model, outputChannels, learningRate, trainFeeder, valFeeder, mod
         tfBatchGT = tf.placeholder("float", shape=[None, 512, 1024, 2])
         tfBatchWeight = tf.placeholder("float", shape=[None, 512, 1024])
         tfBatchSS = tf.placeholder("float", shape=[None, 512, 1024])
-        tfBatchSSMask = tf.placeholder("float", shape=[None, 512, 1024])
+        tfBatchSSMask = tf.placeholder(tf.float32, shape=[None, 512, 1024])
 
         with tf.name_scope("model_builder"):
             print "attempting to build model"
@@ -119,14 +119,12 @@ def train_model(model, outputChannels, learningRate, trainFeeder, valFeeder, mod
 
             for k in range(int(math.floor(valFeeder.total_samples() / batchSize))):
                 imageBatch, gtBatch, weightBatch, ssBatch, ssMaskBatch, _ = valFeeder.next_batch()
-
+		
+		print("hahaha")
+		print(imageBatch.shape)
                 batchLoss, batchAngleError, batchPredicted, batchPredictedWeighted, batchExceed45, batchExceed225 = sess.run(
                     [loss, angleError, numPredicted, numPredictedWeighted, exceed45, exceed225],
-                    feed_dict={tfBatchImages: imageBatch,
-                               tfBatchGT: gtBatch,
-                               tfBatchWeight: weightBatch,
-                               tfBatchSS: ssBatch,
-                               tfBatchSSMask: ssMaskBatch})
+                    feed_dict={tfBatchImages: imageBatch,tfBatchGT: gtBatch,tfBatchWeight: weightBatch, tfBatchSSMask: ssMaskBatch,tfBatchSS: ssBatch,})
                 # print "ran iteration"
                 batchLosses.append(batchLoss)
                 totalAngleError += batchAngleError
@@ -197,35 +195,35 @@ if __name__ == "__main__":
         wd = 1e-5
 
         # QD modelWeightPaths = ["./cityscapes/models/direction/VGG16init_conv1_ch4.mat"]
-		  modelWeightPaths = []
+	modelWeightPaths = []
         initialIteration = 1
 
         model = initialize_model(outputChannels=outputChannels, wd=wd, modelWeightPaths=modelWeightPaths)
 
         trainFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize,
                                    padWidth=None, padHeight=None, flip=True, keepEmpty=False)
-		  ''' QD
+	''' QD
         trainFeeder.set_paths(idList=read_ids('./cityscapes/splits/trainlist.txt'),
                          imageDir="./cityscapes/inputImages/train",
                          gtDir="./cityscapes/unified/iGTFine/train",
                          ssDir="./cityscapes/unified/ssMaskFineGT/train")
-		  '''
-		  trainFeeder.set_paths(idList=read_ids('../cityscapes/splits/train/list.txt'),
-                         imageDir="../cityscapes/inputImages/train",
+	'''
+	trainFeeder.set_paths(idList=read_ids('../cityscapes/splits/train/list.txt'),
+                         imageDir="../cityscapes/leftImg8bit/train",
                          gtDir="../cityscapes/unified/iGTFull/train",
                          ssDir="../cityscapes/unified/ssMaskFinePSP/train")
 						 
         valFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize,
                                  padWidth=None, padHeight=None)
-		  ''' QD
+	''' QD
         valFeeder.set_paths(idList=read_ids('./cityscapes/splits/val/list.txt'),
                          imageDir="./cityscapes/inputImages/val",
                          gtDir="./cityscapes/unified/iGTFine/val",
                          ssDir="./cityscapes/unified/ssMaskFineGT/val")
-		  '''
+	'''
 		  
-		  valFeeder.set_paths(idList=read_ids('../cityscapes/splits/val/list.txt'),
-                         imageDir="../cityscapes/inputImages/val",
+	valFeeder.set_paths(idList=read_ids('../cityscapes/splits/val/list.txt'),
+                         imageDir="../cityscapes/leftImg8bit/val",
                          gtDir="../cityscapes/unified/iGTFull/val",
                          ssDir="../cityscapes/unified/ssMaskFinePSP/val")
         train_model(model=model, outputChannels=outputChannels,
