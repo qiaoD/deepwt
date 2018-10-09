@@ -109,7 +109,7 @@ def train_model(model, outputChannels, learningRate, trainFeeder, valFeeder, mod
         sess.run(init)
         iteration = initialIteration
 
-        while iteration < 1000:
+        while iteration < 10:
             batchLosses = []
             totalAngleError = 0
             totalExceed45 = 0
@@ -120,8 +120,8 @@ def train_model(model, outputChannels, learningRate, trainFeeder, valFeeder, mod
             for k in range(int(math.floor(valFeeder.total_samples() / batchSize))):
                 imageBatch, gtBatch, weightBatch, ssBatch, ssMaskBatch, _ = valFeeder.next_batch()
 		
-		print("hahaha")
-		print(imageBatch.shape)
+		#print("hahaha")
+		#print(imageBatch.shape)
                 batchLoss, batchAngleError, batchPredicted, batchPredictedWeighted, batchExceed45, batchExceed225 = sess.run(
                     [loss, angleError, numPredicted, numPredictedWeighted, exceed45, exceed225],
                     feed_dict={tfBatchImages: imageBatch,tfBatchGT: gtBatch,tfBatchWeight: weightBatch, tfBatchSSMask: ssMaskBatch,tfBatchSS: ssBatch,})

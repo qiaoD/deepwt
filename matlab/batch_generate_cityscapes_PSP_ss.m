@@ -1,11 +1,11 @@
 class = 'unified';
-set = 'train';
+sets = {'val', 'train'};
 
 keys = [13, 11, 12, 17, 18, 14, 15, 16];
 
-input_list_file = strcat('../cityscapes/splits/', set,'/list.txt');
+input_list_file = strcat('../cityscapes/splits/', set, '/list.txt');
 output_dir = strcat('../cityscapes/unified/ssMaskFinePSP/', set);
-input_dir = '../cityscapes/gtFine/train/aachen';
+input_dir = '../cityscapes/gtFine/', set, '/aachen';
 
 
 fid = fopen(input_list_file);

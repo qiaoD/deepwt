@@ -84,8 +84,8 @@ class Batch_Feeder:
                     idBatch.append(self._paths[self._index_in_epoch][0])
 
                     image = (self.image_scaling(skimage.io.imread(self._paths[self._index_in_epoch][1]))).astype(float)
-                image = scipy.misc.imresize(image, 50)    
-					gt = (sio.loadmat(self._paths[self._index_in_epoch][2])['dir_map']).astype(float)
+                    image = scipy.misc.imresize(image, 50)    
+		    gt = (sio.loadmat(self._paths[self._index_in_epoch][2])['dir_map']).astype(float)
                     weight = (sio.loadmat(self._paths[self._index_in_epoch][2])['weight_map']).astype(float)
 
                     imageBatch.append(self.pad(image))
@@ -122,7 +122,7 @@ class Batch_Feeder:
                         gtBatch[i,:,:,j] = np.fliplr(gtBatch[i,:,:,j])
 
                     gtBatch[i,:,:,0] = -1 * gtBatch[i,:,:,0]
-	    print(imageBatch.shape)
+	    #print(imageBatch.shape)
             return imageBatch, gtBatch, weightBatch, ssBatch, ssMaskBatch, idBatch
         else:
             for example in self._paths[self._index_in_epoch:min(self._index_in_epoch+self._batchSize, self._numData)]:
@@ -143,7 +143,7 @@ class Batch_Feeder:
             ssMaskBatch = np.array(ssMaskBatch)
 
             self._index_in_epoch += self._batchSize
-	    print(ssMaskBatch.shape)
+	    #print(ssMaskBatch.shape)
             return imageBatch, ssBatch, ssMaskBatch, idBatch
 
     def total_samples(self):
