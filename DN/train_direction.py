@@ -196,30 +196,42 @@ if __name__ == "__main__":
         # learningRateActual = 1e-7
         wd = 1e-5
 
-        modelWeightPaths = ["./cityscapes/models/direction/VGG16init_conv1_ch4.mat"]
+        # QD modelWeightPaths = ["./cityscapes/models/direction/VGG16init_conv1_ch4.mat"]
+		  modelWeightPaths = []
         initialIteration = 1
 
         model = initialize_model(outputChannels=outputChannels, wd=wd, modelWeightPaths=modelWeightPaths)
 
         trainFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize,
                                    padWidth=None, padHeight=None, flip=True, keepEmpty=False)
+		  ''' QD
         trainFeeder.set_paths(idList=read_ids('./cityscapes/splits/trainlist.txt'),
                          imageDir="./cityscapes/inputImages/train",
                          gtDir="./cityscapes/unified/iGTFine/train",
                          ssDir="./cityscapes/unified/ssMaskFineGT/train")
-
+		  '''
+		  trainFeeder.set_paths(idList=read_ids('../cityscapes/splits/train/list.txt'),
+                         imageDir="../cityscapes/inputImages/train",
+                         gtDir="../cityscapes/unified/iGTFull/train",
+                         ssDir="../cityscapes/unified/ssMaskFinePSP/train")
+						 
         valFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize,
                                  padWidth=None, padHeight=None)
-
+		  ''' QD
         valFeeder.set_paths(idList=read_ids('./cityscapes/splits/val/list.txt'),
                          imageDir="./cityscapes/inputImages/val",
                          gtDir="./cityscapes/unified/iGTFine/val",
                          ssDir="./cityscapes/unified/ssMaskFineGT/val")
-
+		  '''
+		  
+		  valFeeder.set_paths(idList=read_ids('../cityscapes/splits/val/list.txt'),
+                         imageDir="../cityscapes/inputImages/val",
+                         gtDir="../cityscapes/unified/iGTFull/val",
+                         ssDir="../cityscapes/unified/ssMaskFinePSP/val")
         train_model(model=model, outputChannels=outputChannels,
                     learningRate=learningRate,
                     trainFeeder=trainFeeder, valFeeder=valFeeder,
-                    modelSavePath="./cityscapes/models/direction", savePrefix=savePrefix,
+                    modelSavePath="../cityscapes/models/direction", savePrefix=savePrefix,
                     initialIteration=initialIteration)
     else:
         batchSize = 5

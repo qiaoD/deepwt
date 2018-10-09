@@ -1,11 +1,11 @@
 class = 'unified';
-set = 'val';
+set = 'train';
 
 keys = [13, 11, 12, 17, 18, 14, 15, 16];
 
-input_list_file = strcat('../dataset/splits/', set,'/list.txt');
-output_dir = strcat('../dataset/unified/ssMaskFinePSP/', set);
-input_dir = '../dataset/gtFine/val/frankfurt';
+input_list_file = strcat('../cityscapes/splits/', set,'/list.txt');
+output_dir = strcat('../cityscapes/unified/ssMaskFinePSP/', set);
+input_dir = '../cityscapes/gtFine/train/aachen';
 
 
 fid = fopen(input_list_file);
