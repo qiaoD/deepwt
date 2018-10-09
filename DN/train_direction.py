@@ -229,11 +229,11 @@ if __name__ == "__main__":
         train_model(model=model, outputChannels=outputChannels,
                     learningRate=learningRate,
                     trainFeeder=trainFeeder, valFeeder=valFeeder,
-                    modelSavePath="../cityscapes/models/direction", savePrefix=savePrefix,
+                    modelSavePath="../model/direction", savePrefix=savePrefix,
                     initialIteration=initialIteration)
     else:
         batchSize = 5
-        modelWeightPaths = ["./cityscapes/models/direction/direction3_unified_ss_wide_pretrain_VGGFIX_020.mat"]
+        modelWeightPaths = ["../model/direction/direction3_unified_ss_wide_pretrain_VGGFIX_020.mat"]
 
         model = initialize_model(outputChannels=outputChannels, wd=0, modelWeightPaths=modelWeightPaths)
 
