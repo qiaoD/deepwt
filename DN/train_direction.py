@@ -211,7 +211,7 @@ if __name__ == "__main__":
         valFeeder = Batch_Feeder(dataset="cityscapes", indices=indices, train=train, batchSize=batchSize,
                                  padWidth=None, padHeight=None)
 
-        valFeeder.set_paths(idList=read_ids('./cityscapes/splits/vallist.txt'),
+        valFeeder.set_paths(idList=read_ids('./cityscapes/splits/val/list.txt'),
                          imageDir="./cityscapes/inputImages/val",
                          gtDir="./cityscapes/unified/iGTFine/val",
                          ssDir="./cityscapes/unified/ssMaskFineGT/val")
