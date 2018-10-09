@@ -14,9 +14,9 @@ keys = [26000, 26999;
     28000, 28999,
     31000, 31999];
 
-input_list_file = strcat('./cityscapes/splits/',set,'list.txt');
-input_folder = strcat('./cityscapes/gtFine/', set);
-output_file_path = strcat('./cityscapes/unified/iGTFull/', set);
+input_list_file = strcat('../dataset/splits/',set,'/list.txt');
+input_folder = strcat('../dataset/gtFine/', set);
+output_file_path = strcat('../dataset/unified/iGTFull/', set);
 
 boundaries = [0,1,2,3,4,5,7,9,12,15,19,24,30,37,45,54,Inf];
 
