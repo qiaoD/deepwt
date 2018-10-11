@@ -1,11 +1,11 @@
 class = 'unified';
-sets = {'val', 'train'};
+set = 'val';
 
 keys = [13, 11, 12, 17, 18, 14, 15, 16];
 
 input_list_file = strcat('../cityscapes/splits/', set, '/list.txt');
 output_dir = strcat('../cityscapes/unified/ssMaskFinePSP/', set);
-input_dir = '../cityscapes/gtFine/', set, '/aachen';
+input_dir = strcat('../cityscapes/gtFine/', set);
 
 
 fid = fopen(input_list_file);
@@ -23,7 +23,7 @@ while ischar(input_file)
         mkdir(output_file_dir);
     end
     
-    raw_mask = imread(fullfile(input_dir, [id, '_gtFine_instanceIds.png']));
+    raw_mask = imread(fullfile(input_dir,city, [id, '_gtFine_instanceIds.png']));
     
     [height, width] = size(raw_mask);
     
